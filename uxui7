@@ -1,0 +1,99 @@
+import 'package:flutter/material.dart';
+import '../animalItem.dart';
+class SecondApp extends StatefulWidget{
+  @override
+  State<StatefulWidget> createState() => _SecondApp();
+
+  List<Animal> list;
+  SecondApp({Key? key, required this.list}) : super(key: key);
+}
+
+class _SecondApp extends State<SecondApp>{
+  final nameController = TextEditingController();
+  int? _radioValue = 0;
+  bool? flyExist = false;
+  String? _imagePath;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              TextField(
+                controller: nameController,
+                keyboardType: TextInputType.text,
+                maxLines: 1,
+              ),
+              Row(
+                children: <Widget>[
+                  Radio(value: 0, groupValue: _radioValue, onChanged: _radioChange),
+                  Text('Insect'),
+                  Radio(value: 1, groupValue: _radioValue, onChanged: _radioChange),
+                  Text('Insect'),
+                  Radio(value: 2, groupValue: _radioValue, onChanged: _radioChange),
+                  Text('Animal')
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Text('Can it fly?'),
+                  Checkbox(
+                    value: flyExist,
+                    onChanged: (bool? check){
+                      setState(() {
+                        flyExist = check;
+                      });
+                    },
+                  )
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  GestureDetector(
+                    child: Image.asset('repo/images/cow.jpg', width: 80),
+                    onTap: (){
+                      _imagePath = 'repo/images/cow.png';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/gorilla.jpg', width: 80),
+                    onTap: (){
+                      _imagePath = 'repo/images/gorilla.jpg';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/racoon.jpg', width: 80),
+                    onTap: (){
+                      _imagePath = 'repo/images/racoon.jpg';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/tiger.jpg', width: 80),
+                    onTap: (){
+                      _imagePath = 'repo/images/tiger.jpg';
+                    },
+                  ),
+                  GestureDetector(
+                    child: Image.asset('repo/images/mouse.jpg', width: 80),
+                    onTap: (){
+                      _imagePath = 'repo/images/mouse.jpg';
+                    },
+                  ),
+                ],
+              )
+            ],
+          ),
+        )
+    )
+    );
+  }
+
+_radioChange(int? value){
+  setState(() {
+    _radioValue = value;
+  });
+  }
+}
