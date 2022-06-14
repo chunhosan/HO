@@ -1,0 +1,818 @@
+# 1주차
+# Practice 1
+#
+
+# 1. R에서 제공하는 cars 데이터셋을 이용해서 speed 와 dist 에 대한 산점도를 그리시오.
+#    (x축이 speed). speed 와 dist   (제동거리)에 대한 상관 관계를 설명해 보시오.
+
+# cars dateset
+str(cars)
+head(cars)
+
+# vector
+speed <- cars$speed
+dist <- cars$dist
+
+# scatter plot 
+plot(speed, dist, main = "speed vs. distance", xlab = "speed", ylab = "distance" )
+
+plot(cars$speed, cars$dist, main = "speed vs. distance", xlab = "speed", ylab = "distance" )
+
+plot(dist~speed, data = cars, main = "speed vs. distance", xlab = "speed", ylab = "distance" )
+
+
+# 상관계수
+cor(speed, dist)
+cor(speed, speed)
+
+# 상관관계분석
+## speed변수와 dist변수의 상관계수는 0.8068949로, speed가 증가하면 dist가 증가하는 비교적 높은 상관관계를 보인다고 할 수 있음
+
+#
+# ------------------------------------------------
+# 2. R에서 제공하는 pressure 데이터셋을 이용해서 temperature 와 pressure 에 대한 산점도를 그리시오.
+#    (x축이 temperature). 두 변수간 상관 관계를 설명해 보시오.
+
+# pressure dataset
+str(pressure)
+head(pressure)
+
+# scatter plot
+plot(pressure~temperature, data = pressure, main = "pressure vs. temperature")
+
+# linear regression model
+res <- lm(pressure~temperature, data = pressure)
+abline(res)
+
+# 상관계수
+cor(pressure$pressure, pressure$temperature)
+
+# 상관관계분석
+## temperature와 pressure의 상관계수는 0.7577923으로, temperature가 증가하면 pressure도 증가하는 비교적 높은 양의 상관관계를 보인다고 할 수 있음 
+# temperature가 200도가 넘어가면서 prresure는 급상승하는 추세를 보인다
+
+#
+# ------------------------------------------------
+# 3. R에서 제공하는 state.x77 데이터셋에서 Population, Income, Illiteracy, Area 변수간 산점도를 그려
+#    상관관계를 관찰하시오. (pairs() 함수 이용) 
+
+# state.x77 dataset
+str(state.x77)
+head(state.x77)
+
+# vector
+vars <- c("Population", "Income", "Illiteracy", "Area")
+target <- state.x77[, vars]
+
+# target
+class(target)
+head(target)
+
+# Multi scatter plots
+pairs(target, main = "Multi scatter plots")
+Income <- state.x77[, "Income"]
+Illiteracy <- state.x77[, "Illiteracy"]
+
+cor(Income, Illiteracy)
+
+## 4개의 변수 간에는 뚜렷한 상관성을 보이지 않는 것으로 판단됨
+
+#
+# ------------------------------------------------
+# 4. iris 데이터셋에서 Species 정보에 따른 Sepal.Length, Sepal.Width (꽃받침의 길이, 폭)의 분포를 알아 보시오.
+
+# iris dataset
+str(iris)
+head(iris)
+
+# Sepal.Length와 Sepal.Width 추출
+iris.2 <- iris[, 1:2]
+class(iris.2)
+head(iris.2)
+
+# Species에 따른 포인트 설정
+# Factor인 Species를 숫자로 변경
+point <- as.numeric(iris$Species)
+
+# color 설정
+color <- c("red", "green", "blue")
+
+# scatter plot
+plot(iris.2, main = "Iris scatter plot", 
+     pch = c(point), 
+     col = color[point])
+
+## setosa종의 꽃받침의 길이는 약 4.3cm ~ 약 5.8cm 사이에, 꽃받침의 폭은 약 2.3cm ~ 약 4.4cm 사이에 분포하고 있음
+## versicolor종의 꽃받침의 길이는 최소 약 4.9cm에서 최대 약 7cm까지이며, 꽃받침의 폭은 최소 약 2cm에서 최대 약 3.4cm까지 분포하는 것을 알 수 있음  
+## virginica종의 꽃받침의 길이는 짧게는 4.9cm에서 길게는 7.9cm, 넓이는 좁게는 약 2.2cm에서 넓게는 약 3.8cm인 것으로 나타남
+
+## setosa 종은 비교적 다른 종들에 비해 구분이 잘 됨 
+## 반면에, visicorlor와 virginica종은 setosa종과는 구분이 잘 되는 편이나 두 종은 서로 겹치는 부분이 존재하는 것으로 확인됨 
+
+
+#===============================================================
+
+# Practice 2
+
+#
+# ------------------------------------------------
+# 1. 다음은 10명의 수입과 교육받은 기간을 조사한 표이다. 
+#    수입과 교육기간 사이에 어느정도 상관관계가 있는지 조사하시오. (산점도, 상관계수 구하기)
+
+# vector
+Income <- c(125000, 100000, 40000, 35000, 41000, 29000, 35000, 24000, 50000, 60000)
+Years_of_Education <- c(19, 20, 16, 16, 18, 12, 14, 12, 16, 17)
+
+# scatter plot
+plot(Income, Years_of_Education)
+
+# 상관계수
+cor(Income, Years_of_Education) 
+
+## 수입과 교육간의 상관계수는 0.7887259로, 수입이 높을 수록 교육기간이 길다고 할 수 있음 
+
+#
+# ------------------------------------------------
+# 2. 다음은 학생 10명의 성적(GPA)과 TV 시청시간을 조사한 표이다. 
+#    성적과 TV시청시간 사이의 상관관계를 조사하시오. (산점도, 상관계수 구하기)
+
+# vector
+GPA <- c(3.1, 2.4, 2.0, 3.8, 2.2, 3.4, 2.9, 3.2, 2.7, 2.5)
+TV_in_hours_per_week <- c(14, 10, 20, 7, 25, 9, 15, 13, 4, 21)
+
+# scatter plot
+plot(GPA, TV_in_hours_per_week)
+
+# 상관계수
+cor(GPA, TV_in_hours_per_week) 
+
+## 성적과 tv시청 시간 사이의 상관계수는 -0.6257459로, 성적이 높은 학생일수록 tv 시청시간이 그렇지 않은 학생보다 적다고 할 수 있음 
+
+
+#
+# ------------------------------------------------
+# 3. R에서 지공하는 mtcars 데이터셋에서 mpg와 다른 변수들간의 상관계수를 구하시오.
+# 어느 변수가 mpg와 가장 상관성이 높은지 산점도와 함께 제시하시오.
+
+# mtcars
+str(mtcars)
+head(mtcars)
+
+# mtcars 전체 변수의 상관계수
+cor(mtcars)
+
+# wt(weight)가 상관계수(R) -0.867659로 가장 높은 상관관계를 가짐
+# weigh, wt의 산점도
+plot(wt~mpg, data = mtcars, main = "mpg vs. wt ")
+
+# linear regression model (선형 회귀 모델)
+res <- lm(wt~mpg, data = mtcars)
+abline(res)
+
+# mpg, wt 간의 상관계수 재확인
+cor(mtcars$mpg, mtcars$wt)
+
+#===============================================================
+
+# Practice 3
+
+#
+# 1. 다음은 2015년부터 2026년도까지의 예상 인구수 추계자료이다. 선그래프를 작성하시오. 
+
+# vector
+years <- c(2015, 2016, 2017, 2018, 2019, 2020, 
+           2021, 2022, 2023, 2024, 2025, 2026)
+head(state.x77)
+population <- c(51014, 51245, 51446, 51635, 51911, 
+                51973, 52123, 52261, 52388, 52504, 
+                52609, 52704)
+# line graph
+plot(years, population, main = "growth of population",
+     type = "b", lty = 1, lwd = 1, 
+     xlab = "Years", ylab = "Population")
+
+#
+# ------------------------------------------------
+# 2. 다음은 2014년 4분기부터 2017년 3분기까지 남,녀의 경제활동참가율 통계이다. 선그래프를 작성하시오.
+#    (남,녀를 각각 다른 선으로 표시) 
+#    (2014년 4분기는 20144, 2015년1분기는 20151 과 같이 입력한다.)
+
+# vector
+quarter <- c(20144, 20151, 20152, 20153, 20154, 20161, 
+             20162, 20163, 20164, 20171, 20172, 20173)
+
+male <- c(73.9, 73.1, 74.4, 74.2, 73.5, 73.0, 
+          74.2, 74.5, 73.8, 73.1, 74.5, 74.2)
+female <- c(51.4, 50.5, 52.4, 52.4, 51.9, 50.9,
+            52.6, 52.7, 52.2, 51.5, 53.2, 53.1)
+
+# 방법 1 
+# 1st line graph
+plot(quarter, 
+     male, 
+     main = "경제활동 남녀 인구 비율",
+     type = "b", 
+     lty=1, 
+     col = "red",
+     ylim = c(min(female), max(male)),  # y축을 female 최소값, male 최대값으로 제한
+     xlab = "분기",
+     ylab = "결제활동 비율" )
+
+# 주) ylim으로 y축을 제한하지 않으면, lines로 그리는 2번째 그래프가 그려지지 않을 수 있음
+
+# 2nd line graph
+lines(quarter, 
+      female, 
+      type = "b", 
+      col = "blue")
+
+
+# --------------------
+# 방법 2 : 분기 구간을 정확하게 표기하고 싶을 때
+
+# vector
+male <- c(73.9, 73.1, 74.4, 74.2, 73.5, 73.0, 
+          74.2, 74.5, 73.8, 73.1, 74.5, 74.2)
+female <- c(51.4, 50.5, 52.4, 52.4, 51.9, 50.9,
+            52.6, 52.7, 52.2, 51.5, 53.2, 53.1)
+
+# 1st line graph
+plot(male, 
+     type = "b", 
+     lty=1, 
+     col = "red",
+     xlab = "기간",
+     ylab = "결제활동 비율",
+     ylim = c(min(female), max(male)),  # y축 제한
+     axes = F                          # axis로 나중에 추가하기 위해 x, y 축을 표시 하지 않음 
+)
+
+# axis로 x축을 사용자 지정값으로 표시  
+# x축에 분기 구간 추가 : 첫번째 인자 1은 x 축
+axis(1, at=1:12, lab = c("2014년 4분기", "2015년 1분기", "2015년 2분기", "2015년 3분기", 
+                         "2015년 4분기", "2016년 1분기", "2016년 2분기", "2016년 3분기", 
+                         "2016년 4분기", "2017년 1분기", "2017년 2분기", "2017년 3분기"))
+# y축 구간 추가
+axis(2, ylim = c(0:100))
+
+# 제목 추가
+title(main = "경제활동 남녀 인구 비율")    
+
+# 2nd line graph
+lines(female, 
+      type = "b", 
+      col = "blue")
+
+
+-----------------------------------------------------------
+
+library(treemap)                        # treemap 패키지 불러오기
+data(GNI2014)                           # 데이터 불러오기
+str(GNI2014)
+class(GNI2014)
+head(GNI2014)                           # 데이터 내용보기 
+
+treemap(GNI2014,
+        index = c("continent", "iso3"), # 계층구보 설정 (대륙-국가)
+        vSize = "population",           # 타일의 크기  
+        vColor = "GNI",                 # 타일의 컬러
+        type = "value",                 # 타일 컬러링 방법
+        bg.labels = "yellow",           # 레이블의 배경색
+        title = "World's GNI")          # 트리맵 제목
+
+# Tree map
+st <- data.frame(state.x77)     # 매트릭스 -> 데이터프레임
+class(st)
+
+# 주 이름 열 stname을 추가
+st <- data.frame(st, stname = rownames(st))
+head(st)
+
+treemap(st,
+        index = c("stname"),   # 타일에 주 이름 표기
+        vSize = "Area",        # 타일의 크기    
+        vColor = "Income",     # 타일의 컬러
+        type = "value",        # 타일 컬러링 방법
+        title = "USA states area and income")  # 트리맵의 제목
+
+
+# Bubble chart
+st <- data.frame(state.x77)         # 매크릭스 -> 데이터프레임
+symbols(st$Illiteracy, st$Murder,   # 원의 x, y 좌표 column
+        circles = st$Population,    # 원의 반지름의 column
+        inches = 0.3,               # 원의 크기 조절값
+        fg = "white",               # 원의 테두리 색
+        bg = "lightgray",           # 원의 바탕색
+        lwd = 1.5,                  # 원의 테두리선 두께
+        xlab = "rate of Illiteracy",
+        ylab = "crime (murder) rate",
+        main = "Illiteracy and Crime")
+text(st$Illiteracy, st$Murder,      # 텍스트가 출력될 x, y 좌표
+     rownames(st),                  # 출력할 텍스트
+     cex = 0.6,                     # 폰트 크기
+     col = "brown")                 # 폰트 컬러러8
+
+# Mosaic plot
+# mtcars 데이터셋에 대한 모자이크 플롯
+head(mtcars)
+mosaicplot(~gear+vs, data = mtcars, color = TRUE, main = "Gear and Vs")
+mosaicplot(vs~gear, data = mtcars, color = TRUE, main = "Gear and Vs")   # 오류
+mosaicplot(mtcars$vs, mtcars$gear, color = TRUE, main = "Gear and Vs")   # 오류
+
+# Mosaic plot
+# 모자이크 플롯에 그룹별로 색상을 넣기
+mosaicplot(~gear+vs, data = mtcars, color = c("green", "blue"), main = "Gear and Vs")
+
+# Mosaic plot
+# 교차표 형태로 데이터가 존재하는 경우
+
+Titanic
+str(Titanic)
+class(Titanic)
+
+tb <- table(iris$Species)   # 테이블 예시
+str(tb)                     
+
+mosaicplot(Titanic, color = TRUE, off = 5)
+
+# Mosaic plot
+mosaicplot(Titanic,
+           main = "Survival on the Titanic",
+           color = c("red", "green"),
+           off = 1) # 블럭들 사이의 간격 지정
+
+
+# ========================================================
+
+# ggplot
+library(ggplot2)
+
+month <- c(1, 2, 3, 4, 5, 6)
+rain <- c(55, 50, 45, 50, 60, 70)
+df <- data.frame(month, rain)            # 그래프를 작성할 대상 데이터
+df
+
+ggplot(df, aes(x = month, y = rain)) +   # 그래프를 그릴 데이터 지정
+  geom_bar(stat = "identity",            # 막대 높이: y축 열의 값
+           width = 0.7,                  # 막대의 폭 지정
+           fill = "steelblue")           # 막대의 색깔 지정
+
+
+
+ggplot(df, aes(x = month, y = rain)) +   # 그래프를 그릴 데이터 지정
+  geom_bar(stat = "identity",            # 막대 높이는 y 축 열의 값  
+           width = 0.7,                  # 막대의 폭 지정
+           fill = "steelblue") +         # 막대의 색깔 지정
+  ggtitle("월별 강수량") +               # 그래프의 타이틀 지정
+  theme(plot.title = element_text(size = 25, face = "bold", 
+                                  colour = "steelblue")) +
+  labs(x = "월", y = "강수량") +         # 그래프의 x, y 축 레이블
+  coord_flip()                           # 그래프를 가로 방향으로 출력력
+
+
+# ggplot
+library(ggplot2)
+
+ggplot(iris, aes(x = Petal.Length)) +  # 그래프를 그릴 데이터 지정
+  geom_histogram(binwidth = 0.5)       # 히스토그램 작성
+
+# ggplot
+library(ggplot2)
+
+ggplot(iris, aes(x = Sepal.Width, fill = Species, color = Species)) +
+  geom_histogram(binwidth = 0.5, position = "dodge") +
+  theme(legend.position = "top")
+
+#ggplot
+library(ggplot2)
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width)) + 
+  geom_point()
+
+#ggplot
+library(ggplot2)
+
+ggplot(data = iris, aes(x = Petal.Length, y = Petal.Width, color = Species)) +
+  geom_point(size = 3) +
+  ggtitle("꽃잎의 길이와 폭") +                                 # 그래프의 제목 지정정
+  theme(plot.title =  element_text(size = 25, face = "bold",
+                                   colour = "steelblue"))
+
+# ggplot
+library(ggplot2)
+
+ggplot(data = iris, aes(y = Petal.Length)) + 
+  geom_boxplot(fill = "yellow")
+
+
+# ggplot 
+library(ggplot2)
+
+ggplot(data = iris, aes(y = Petal.Length, fill = Species)) +
+  geom_boxplot()
+  
+  ---------------------------------------------------------
+  
+  
+  #library(extrafont)       # for Mac user
+#font_import()
+#par(family = "AppleGothic")
+
+setwd("C:/Rworks")
+ds <- read.csv("lecture9_1.csv", header=T, fileEncoding = "euc-kr")
+head(ds)
+str(ds)
+View(ds)
+
+# 선거구별 선거인수 (전국)
+boxplot(ds$선거인.수,
+        col="yellow",
+        ylim=c(0,250000),
+        xlab="전국",
+        ylab="선거인수")
+summary(ds$선거인.수)
+
+# 시도번호로 그룹핑한후 그룹열로 선거인.수의 중간값을 계산
+cnt <- aggregate(ds[,5], by=list(ds$시도),median)
+cnt
+
+# 선거인.수의 중간값이 큰순서에서 작은 순서로 순위 계산
+odr <- rank(-cnt$x)
+odr
+
+# 시도를 기준으로 그룹핑하여 다중 상자그림을 그린다
+boxplot(선거인.수~시도, data=ds,
+           col=heat.colors(16)[odr], # 상자의 색을 지정
+           ylim=c(0,250000),
+           ylab="선거인수",
+           main="18대 국회의원 선거구의 시도별 선거인수 분포")
+
+# Multiple Box plot                 # 읽어올 데이터 파일이 있는 폴더지정
+ds <- read.csv("lecture9_2.csv")
+head(ds)
+str(ds)
+summary(ds$avg_temp)
+
+# 서울 1년 기온 분포
+boxplot(ds$avg_temp,
+        col="yellow",
+        ylim=c(-20,40),
+        xlab="서울1년기온",
+        ylab="기온")
+
+# 월별 평균기온계산
+month.avg <- aggregate(ds$avg_temp,
+                       by=list(ds$month),median)[2]
+
+month.avg
+# 평균기온 순위 계산 (내림차순)
+odr <- rank(-month.avg)
+
+# 월별 기온분포
+boxplot(avg_temp~month, data=ds,
+        col=heat.colors(12)[odr],     # 상자의 색을 지정 
+        ylim=c(-20,40),
+        ylab="기온",
+        xlab="월",
+        main="서울 월별기온분포 (2017)")
+        
+        
+ ---------------------------------------------------------------
+ 
+ 
+#=============================
+# Missing value
+
+x <- c(1,2,3,NA,5,8)
+sum(x)
+sum(x, na.rm=T) # 결측값을 제외하고 연산
+
+# Vector에 NA가 몇 개나 포함되어 있는지 확인
+z <- c(1,2,3,NA,5,NA,8)
+is.na(z)
+sum(is.na(z))
+
+# NA 를 0으로 치환
+z[is.na(z)] <- 0
+z
+
+# Vector 에 포함된 NA 제거
+x <- c(1,2,3,NA,5,8)
+x
+y <- as.vector(na.omit(x)) # vector 에서 NA 제거
+y
+
+# 2차원 배열 NA
+# NA를 포함하는 test 데이터 생성
+x <- iris
+x[1,2] <- NA; x[1,3] <- NA
+x[2,3] <- NA; x[3,4] <- NA
+head(x)
+
+# 각 컬럼별로 결측값이 몇 개 있는지 확인
+col_na <- function(y){
+  return (sum(is.na(y)))
+}
+na_count <- sapply(x, FUN = col_na)
+na_count
+class(na_count)
+
+# NA 를 포함한 행(row)은 몇 개인지 파악
+is.na(x)                 # 데이터셋 전체
+rowSums(is.na(x))        # 행별 NA 개수
+sum(rowSums(is.na(x))>0) # NA 가 포함된 행의 개수
+sum(colSums(is.na(x))>0)
+
+# NA 를 포함한 행(row)을 제외하고 새로운 데이터 생성
+head(x)
+x[!complete.cases(x),]
+y <- x[complete.cases(x),]
+head(y)
+
+# 결측값을 적당한 값으로 추정항여 치환
+library(mice)               # 결측값 추정 지원
+md.pattern(x)               # 결측값 통계
+result <- mice(x, m=5, maxit = 50,
+               method = 'pmm', seed = 500)  # 결측값 예측
+# get complete data (2nd out of 5)
+impute_x <- complete(result,2)              # 예측값 반영
+head(x)
+head(impute_x)
+head(iris)
+
+
+#=============================
+# function
+
+mymax <- function(x,y){
+  num.max <- x
+  if(y > x) {
+    num.max <- y
+  }
+  return(num.max)
+}
+
+# 내가 정의한 함수가 저장된 파일 사용하기
+mydiv <- function(x, y=2){
+  result <- x/y
+  return(result)
+}
+
+#setwd("c:/Rworks") # myfunc.R 이 저장된 폴더
+#source("myfunc.R") # myfunc.R 의 명령어 실행
+# 함수 사용
+a <- mydiv(20,4)
+b <- mydiv(30,4)
+a
+b
+a+b
+mydiv(mydiv(20,2),5)
+
+# Return 해야 할 값이 하나가 아니고 여러 개 일때
+
+myfunc <- function(x,y){
+  val.sum <- x+y
+  val.mul <- x*y
+  return(list(sum=val.sum, mul=val.mul))
+}
+
+result <- myfunc(5, 8)
+class(result) #list
+
+result$sum
+result$mul
+
+#=============================
+# Outlier
+
+
+# 이상치 탐색
+st <- data.frame(state.x77)
+boxplot(st$Income)
+boxplot.stats(st$Income)
+boxplot.stats(st$Income)$out
+
+# 각 컬럼의 이상치를 NA 처리한 후 NA 를 포함한 행들을 제거
+out.val <- boxplot.stats(st$Income)$out
+st$Income[st$Income %in% out.val] <-  NA # outlier가 n개 일때
+st$Income
+
+st$Income[st$Income == out.val] <- NA   # outlier가 1개 일때
+st$Income
+
+boxplot.stats(st$Income)$out
+
+st$Income
+newdata <- st[complete.cases(st),]
+head(st)
+head(newdata)
+
+# 벡터의 정렬
+v1 <- c(1,7,6,8,4,2,3)
+order(v1)
+v1 <- sort(v1)                # 오름차순
+v1
+v2 <-sort(v1, decreasing = T) # 내림차순
+v2
+
+# 기준 변수(컬럼)값에 의한 2차원 배열의 정렬
+head(iris)
+order(iris$Sepal.Length)
+iris[order(iris$Sepal.Length),]
+
+# 기준 변수(컬럼)값에 의한 2차원 배열의 정렬
+iris[order(iris$Sepal.Length, decreasing = T),]
+iris[order(iris$Species, iris$Sepal.Length),]
+
+# order() 와 rank()
+v3 <- c(1,7,2,5)
+order(v3)
+rank(v3)
+
+
+#=============================
+# 분리(split)
+sp <- split(iris, iris$Species)
+sp
+
+summary(sp)
+class(sp)
+sp$setosa
+
+
+#=============================
+# 선택(subset)
+subset(iris, Species == "setosa")
+subset(iris, Sepal.Length > 5.1)
+subset(iris, Sepal.Length > 5.1 &
+         Sepal.Width > 3.9)
+subset(iris, Sepal.Length > 5.1,
+       select = c(Petal.Length, Petal.Width))
+
+
+#=============================
+# which
+x <- c(3,1,7,8,5,9,4)
+which(x>5)
+which(iris$Species == "setosa")
+which.max(iris$Sepal.Length)
+which.min(iris$Sepal.Width)
+iris[61,]
+sort(iris$Sepal.Width)
+
+#=============================
+# Sampling
+
+x <- 1:100
+# x 에서 10개의 수를 임의로 추출(비복원 추출)
+y <- sample(x, size = 10, replace = FALSE)
+y
+
+# iris 에서 50개의 행(row)을 임의로 추출 (비복원 추출)
+idx <- sample(nrow(iris), size = 50,
+              replace = FALSE)
+
+iris.50 <- iris[idx,]
+head(iris.50)
+iris.50
+
+#=============================
+# Combination
+
+combn(5,3)          # 5개 중 3개를 뽑는 조합
+x <-  c("red", "green", "blue", "black", "white")
+com <- combn(x,2)   # x의 원소를 2개씩 뽑는 조합
+com
+for(i in 1:ncol(com)){
+  cat(com[,i], "/n")
+}
+
+#=============================
+# Aggregate
+
+# iris 데이터셋에서 각 품종별로 꽃잎 꽃받침의 폭과 길이의 평균
+agg <- aggregate(iris[,-5], by = list(iris$Species), FUN = mean)
+agg
+
+# iris 데이터셋에서 각 품종별로 꽃잎 꽃받침의 폭과 길이의 표준편차
+agg <- aggregate(iris[,-5], by = list(iris$Species), FUN = sd)
+agg
+
+# mtcars 데이터셋에서 cyl,vs 을 기준으로 다른 컬럼들의 최대값을 보이시오
+head(mtcars)
+agg <- aggregate(mtcars, by = list(mtcars$cyl, mtcars$vs), FUN = max)
+agg
+
+# column 이름을 추가
+agg <- aggregate(mtcars, by = list(cyl =  mtcars$cyl, vs = mtcars$vs), FUN = max)
+agg
+
+
+#=============================
+# attach, detach
+
+attach(mtcars)
+agg <- aggregate(mtcars, by = list(cyl,vs), FUN = max)
+agg
+detach(mtcars)
+
+
+#=============================
+# merge
+
+x <- data.frame(name = c("a", "b", "c"), math = c(90,80,40))
+y <- data.frame(name = c("a", "b", "d"), korean = c(75,60,90))
+x
+y
+merge(x, y, by=c("name"))
+x
+y
+merge(x,y, all.x=T)
+merge(x,y, all.y=T)
+merge(x,y, all=T)
+
+# 공통 컬럼이름이 다른 경우
+x <- data.frame(name = c("a", "b", "c"), math = c(90,80,40))
+y <- data.frame(sname = c("a", "b", "d"), korean = c(75,60,90))
+x
+y
+merge(x, y, by.x = c("name"), by.y = c("sname"))
+
+
+#=============================
+# general vs. formula
+
+# 일반
+agg <- aggregate(iris[,-5], by = list(iris$Species), FUN = mean)
+agg
+
+# formula 방식
+agg <- aggregate(.~Species, data = iris, FUN = mean)
+agg
+
+
+---------------------------------------------------------------------
+
+
+# K-means clustering
+require(graphics)
+# create a 2-dimensional example
+x <- rbind(matrix(rnorm(100, sd = 0.3), ncol = 2),
+           matrix(rnorm(100, mean = 1, sd = 0.3),
+                  ncol = 2))
+colnames(x) <- c("x", "y")
+cl <- kmeans(x, 2)
+cl #show clustering result
+
+plot(x, col = cl$cluster)
+points(cl$centers, col = 1:2, pch = 8, cex = 2)
+
+# random starts do help here with too many clusters
+cl <- kmeans(x, 5, nstart = 25)
+plot(x, col = cl$cluster)
+points(cl$centers, col = 1:5, pch = 8)
+
+# K nearest neighbor classification
+require("class")
+# prepare train/test data
+tr.idx <- c(1:25, 51:75, 101:125)
+ds.tr <- iris[tr.idx, 1:4]
+ds.ts <- iris[-tr.idx, 1:4]
+cl.tr <- factor(iris[tr.idx, 5])
+cl.ts <- factor(iris[-tr.idx, 5])
+
+pred <- knn(ds.tr, ds.ts, cl.tr, k = 3, prob = TRUE)
+pred
+
+acc <- mean(pred == cl.ts) # 예측 정확도
+acc
+
+table(pred, cl.ts)
+
+# K fold cross validation
+require("class")
+
+#get fold no for each rows
+group.1 <- cut(seq(1,50), breaks = 5, labels = FALSE)
+group.2 <- cut(seq(51,100), breaks = 5, labels = FALSE)
+group.3 <- cut(seq(101,150), breaks = 5, labels = FALSE)
+fold <- c(group.1, group.2, group.3)
+
+acc <- c() # accuracy for each fold
+for(i in 1:5){
+  ds.tr <- iris[fold != i, 1:4]
+  ds.ts <- iris[fold == i, 1:4]
+  cl.tr <- factor(iris[fold != 1, 5])
+  cl.ts <- factor(iris[fold == 1, 5])
+  pred <- knn(ds.tr, ds.ts, cl.tr, k = 3)
+  acc[i] <- mean(pred == cl.ts) # 예측 정확도
+}
+
+acc        # accracy of 5 fold
+mean(acc)  # mean accracy of 5 fold
+
+
+
+
+
+-------------------------------------------------------------------
